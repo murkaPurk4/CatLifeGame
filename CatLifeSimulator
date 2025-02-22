@@ -1,0 +1,68 @@
+import cmd
+
+class Cat:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        self.hunger = 0
+        self.energy = 100
+
+    def eat(self):
+        if self.hunger > 0:
+            self.hunger -= 1
+            self.energy += 10
+            print(f'{self.name} has eaten. Hunger level: {self.hunger}. Energy level: {self.energy}.')
+        else:
+            print(f'{self.name} is not hungry.')
+
+    def play(self):
+        if self.energy > 10:
+            self.hunger += 1
+            self.energy -= 10
+            print(f'{self.name} played. Hunger level: {self.hunger}. Energy level: {self.energy}.')
+        else:
+            print(f'{self.name} is too tired to play.')
+
+    def sleep(self):
+        self.hunger += 1
+        self.energy += 20
+        print(f'{self.name} slept. Hunger level: {self.hunger}. Energy level: {self.energy}.')
+
+    def status(self):
+        print(f'Name: {self.name}')
+        print(f'Age: {self.age}')
+        print(f'Hunger level: {self.hunger}')
+        print(f'Energy level: {self.energy}')
+
+class CatSimulator(cmd.Cmd):
+    prompt = '>> '
+    intro = 'Welcome to the Cat Simulator! Type "help" for a list of commands.'
+
+    def __init__(self, cat):
+        super().__init__()
+        self.cat = cat
+
+    def do_give_food(self, args):
+        """Feed the cat"""
+        self.cat.eat()
+
+    def do_play(self, args):
+        """Play with the cat"""
+        self.cat.play()
+
+    def do_sleep(self, args):
+        """Let the cat sleep"""
+        self.cat.sleep()
+
+    def do_status(self, args):
+        """Show the cat's current status"""
+        self.cat.status()
+
+    def do_exit(self, args):
+        """Exit the simulator"""
+        print('Goodbye!')
+        return True
+
+if __name__ == '__main__':
+    my_cat = Cat("Murzik", 3)
+    CatSimulator(my_cat).cmdloop()
